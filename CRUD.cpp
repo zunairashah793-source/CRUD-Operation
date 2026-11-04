@@ -1,114 +1,127 @@
-#include<iostream>
-using namespace std;
+        return;
+    }
 
-int i=0;
+    for (int j = 0; j < count; j++)
+    {
+        if (numbers[j] == oldNumber)
+        {
+            int newNumber;
+            if (!readInteger("Enter the replacement number: ", newNumber))
+            {
+                return;
+            }
 
-void add(int a[])
-{
-	cout<<"Enter the number you want to add "<<endl;
-	cin>>a[i];
-	i++;
-	cout<<"Added sucessfuly"<<endl;
+            numbers[j] = newNumber;
+            cout << "Number updated successfully.\n";
+            return; // Updates the first matching occurrence.
+        }
+    }
+
+    cout << "Number not found. Nothing was updated.\n";
 }
 
-void exitProgram()
- {
- 	
- }
-
-void search(int a[])
+void deleteNumber(int numbers[], int& count)
 {
-	int n;
-	cout<<"Enter the number you want to search "<<endl;
-	cin>>n;
-	for(int j=0;j<i;j++)
-	{
-		if(n==a[j])
-		{
-			cout<<"Your searched value is "<<a[j]<<endl;
-		}
-	}
+    if (count == 0)
+    {
+        cout << "The list is empty. Add a number first.\n";
+        return;
+    }
+
+    int target;
+    if (!readInteger("Enter the number you want to delete: ", target))
+    {
+        return;
+    }
+
+    for (int j = 0; j < count; j++)
+    {
+        if (numbers[j] == target)
+        {
+            // Shift every element after the deleted number one place to the left.
+            for (int k = j; k < count - 1; k++)
+            {
+                numbers[k] = numbers[k + 1];
+            }
+
+            count--;
+            cout << "Number deleted successfully.\n";
+            return; // Deletes the first matching occurrence.
+        }
+    }
+
+    cout << "Number not found. Nothing was deleted.\n";
 }
 
-void update(int a[])
+void showNumbers(const int numbers[], int count)
 {
-	int n;
-	cout<<"Enter the number you want to update "<<endl;
-	cin>>n;
-	for(int j=0;j<i;j++)
-	{
-		if(n==a[j])
-		{
-			cout<<"Your updated value is "<<a[j]<<endl;
-		}
-	}
-}
+    if (count == 0)
+    {
+        cout << "The list is empty.\n";
+        return;
+    }
 
-void del(int a[])
-{
-	int n;
-	cout<<"Enter the number you want to delete "<<endl;
-	cin>>n;
-	for(int j=0;j<i;j++)
-	{
-		if(n==a[j])
-		{
-			for(int k=j;k<j;k++)
-			{
-				a[k]=a[k+1];
-			}
-		}i--;
-		break;
-	}
-}
+    cout << "\nStored numbers:\n";
 
-void show(int a[])
-{
-	for(int j=0;j<i;j++)
-	{
-		cout<<"\n"<<a[j]<<endl;
-	}
+    for (int j = 0; j < count; j++)
+    {
+        cout << j + 1 << ". " << numbers[j] << '\n';
+    }
 }
 
 int main()
 {
-	cout<<"Press 1 for add"<<endl;
-	cout<<"Press 2 for search"<<endl;
-	cout<<"Press 3 for delete"<<endl;
-	cout<<"Press 4 for update"<<endl;
-	cout<<"Press 5 for show"<<endl;
-	cout<<"Press 6 for exit"<<endl;
-	
-p:
- int choice;
- cout<<"Enter your choice "<<endl;
- cin>>choice;
- int a[20];
- 
- switch(choice)
- {
- 	case 1:
- 	add(a);
- 	break;
- 	case 2:
-	serch(a);
-	break;
-	case 3:
-	del(a);
-	break;
-	case 4:
-	update(a);
-	break;
-	case 5:
-	show(a);
-	break;
-	case 6:
-	exitProgram(0);
-	break;
-	default:
-	cout<<"Invalid value...try again"<<endl;
-	 	
- }
-  	goto p;
-	
+    int numbers[MAX_SIZE];
+    int count = 0;
+
+    while (true)
+    {
+        cout << "\n========== ARRAY CRUD MENU ==========\n";
+        cout << "1. Add a number\n";
+        cout << "2. Search for a number\n";
+        cout << "3. Delete a number\n";
+        cout << "4. Update a number\n";
+        cout << "5. Show all numbers\n";
+        cout << "6. Exit\n";
+        cout << "=====================================\n";
+
+        int choice;
+        if (!readInteger("Enter your choice: ", choice))
+        {
+            cout << "\nInput ended. Program closed.\n";
+            break;
+        }
+
+        switch (choice)
+        {
+            case 1:
+                addNumber(numbers, count);
+                break;
+
+            case 2:
+                searchNumber(numbers, count);
+                break;
+
+            case 3:
+                deleteNumber(numbers, count);
+                break;
+
+            case 4:
+                updateNumber(numbers, count);
+                break;
+
+            case 5:
+                showNumbers(numbers, count);
+                break;
+
+            case 6:
+                cout << "Exiting program. Goodbye!\n";
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please select a number from 1 to 6.\n";
+        }
+    }
+
+    return 0;
 }
